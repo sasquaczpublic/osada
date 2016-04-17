@@ -1,0 +1,143 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Osada" x:Class="Osada.MainWindow"
+        Title="Osada" Foreground="Black" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Width="1200" Height="700" FontSize="16" Background="#FF5B8989">
+    <!-- Okno -->
+    <Grid>
+        <!-- Plansza -->
+        <ItemsControl ItemsSource="{Binding Board, Mode=TwoWay}" Margin="0,0,0,0" Width="511" HorizontalAlignment="Left" Height="511" VerticalAlignment="Top" Cursor="Arrow" Background="#FF633434">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="{Binding Color, Mode=TwoWay}" MouseEnter="Field_MouseEnter" MouseLeave="Field_MouseLeave" MouseDown="Field_MouseDown" Tag="{Binding FieldId, Mode=TwoWay}" BorderBrush="Black">
+                        <Image Source="{Binding Img.Source, Mode=TwoWay}"/>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="20" Rows="20"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <!-- /Plansza -->
+
+        <!-- Info z mapy -->
+        <Grid x:Name="InfoGrid" HorizontalAlignment="Left" Margin="0,0,0,0" Height="150" Width="340" VerticalAlignment="Bottom" Background="#FFA60000">
+            <TextBlock x:Name="TbXLabel" Text="X:" Margin="5,5,0,0" FontSize="22" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbX" Text="0" Margin="35,5,0,0" Height="30" Width="50" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbYLabel" Text="Y:" Margin="5,35,0,0" FontSize="22" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbY" Text="0" Margin="35,35,0,0" Height="30" Width="50" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbIdLabel" Text="Id:" Margin="5,65,0,0" FontSize="22" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbId" Text="0" Margin="35,65,0,0" Height="30" Width="50" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbHeightLabel" Text="Wysokość:" Margin="75,5,0,0" Width="150" FontSize="22" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <TextBlock x:Name="TbHeight" Text="n/a" Height="30" Width="150" Margin="190,5,0,0" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbTypeLabel" Text="Typ:" Width="150" Margin="75,35,0,0" FontSize="22" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbType" Text="n/a" Margin="190,35,0,0" Height="30" Width="150" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbXLastLabel" Text="XL:" Margin="250,71,0,0" FontSize="22" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbXLast" Text="0" Margin="288,71,0,0" Height="30" Width="50" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbYLastLabel" Text="YL:" Margin="250,88,0,0" FontSize="22" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbYLast" Text="0" Margin="288,89,0,0" Height="30" Width="50" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbIdLastLabel" Text="IdL:" Margin="250,108,0,0" FontSize="22" Width="50" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbIdLast" Text="0" Margin="288,108,0,0" Height="30" Width="50" FontSize="22" VerticalAlignment="Top" HorizontalAlignment="Left" />
+
+        </Grid>
+        <!-- /Info z mapy -->
+
+        <!-- Info z budynków -->
+        <Grid x:Name="InfoBuilding" HorizontalAlignment="Left" Margin="340,0,0,0" Height="150" Width="340"  VerticalAlignment="Bottom" Background="#FF2B830A">
+            <TextBlock Text="Budynek:" Margin="5,5,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbBuildingType" Text=" " Margin="105,5,0,0" FontSize="22" Width="200" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbOwnerLabel" Text="" Margin="5,35,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbOwner" Text=" " Margin="120,35,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbCrewLabel" Text="" Margin="5,65,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbCrew" Text="" Margin="105,65,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbCrewMax" Text="" Margin="155,65,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <TextBlock x:Name="TbCrewSlash" Text="" Margin="130,65,0,0" FontSize="22" Width="100" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" />
+            <Button Content="/\" HorizontalAlignment="Left" Height="25" Margin="262,55,0,0" VerticalAlignment="Top" Width="35" Click="Employ"/>
+            <Button Content="\/" HorizontalAlignment="Left" Height="26" Margin="262,80,0,0" VerticalAlignment="Top" Width="35" Click="Release"/>
+            <!-- <Button Content="Destroy" HorizontalAlignment="Left" Height="26" Margin="5,120,0,0" VerticalAlignment="Top" Width="86" Click="DestroyBuilding"/> -->
+
+        </Grid>
+        <!-- /Info z budynków -->
+
+        <!-- wyswietlacz danych gracza -->
+        <Grid HorizontalAlignment="Left" Margin="680,0,0,0" VerticalAlignment="Bottom" Width="510" Height="150" Background="#FF605E83">
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="5,5,0,0" TextWrapping="Wrap" Text="Jedzenie:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="5,30,0,0" TextWrapping="Wrap" Text="Złoto:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="5,55,0,0" TextWrapping="Wrap" Text="Kamień:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="5,80,0,0" TextWrapping="Wrap" Text="Drewno:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbFood" HorizontalAlignment="Left" Height="25" Margin="95,5,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbGold" HorizontalAlignment="Left" Height="25" Margin="95,30,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbStone" HorizontalAlignment="Left" Height="25" Margin="95,55,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbWood" HorizontalAlignment="Left" Height="25" Margin="95,80,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="185,5,0,0" TextWrapping="Wrap" Text="Osadnicy:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="185,30,0,0" TextWrapping="Wrap" Text="Naukowcy:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="185,55,0,0" TextWrapping="Wrap" Text="Żołnierze:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock HorizontalAlignment="Left" Height="25" Margin="185,80,0,0" TextWrapping="Wrap" Text="Technologia:" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSettlers" HorizontalAlignment="Left" Height="25" Margin="280,5,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSettlersMax" HorizontalAlignment="Left" Height="25" Margin="420,5,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSettlersAll" HorizontalAlignment="Left" Height="25" Margin="350,5,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSciencists" HorizontalAlignment="Left" Height="25" Margin="280,30,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSciencistsAll" HorizontalAlignment="Left" Height="25" Margin="350,30,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSoldiers" HorizontalAlignment="Left" Height="25" Margin="280,55,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbSoldiersAll" HorizontalAlignment="Left" Height="25" Margin="350,55,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbFoodTech" HorizontalAlignment="Left" Height="25" Margin="300,80,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbGoldTech" HorizontalAlignment="Left" Height="25" Margin="340,80,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbStoneTech" HorizontalAlignment="Left" Height="25" Margin="380,80,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+            <TextBlock x:Name="TbWoodTech" HorizontalAlignment="Left" Height="25" Margin="420,80,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="130"/>
+
+        </Grid>
+        <!-- /wyswietlacz danych gracza -->
+
+        <!-- Menu akcji -->
+        <Grid HorizontalAlignment="Left" Height="500" Margin="600,5,0,0" VerticalAlignment="Top" Width="500">
+            <!-- Wybieranie menu -->
+            <Grid HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Top" Width="500" Background="#19000000">
+                <Button x:Name="BtBuildingMenu" Content="Budynki" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Click="BtBuildingMenu_Click"/>
+                <Button x:Name="BtDiscoveringMenu" Content="Odkrycia" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" Width="100" Click="BtDiscoveringMenu_Click"/>
+                <Button x:Name="BtArmyMenu" Content="Armia" HorizontalAlignment="Left" Margin="200,10,0,0" VerticalAlignment="Top" Width="100" Click="BtArmyMenu_Click"/>
+                <Button Content="X" HorizontalAlignment="Left" Margin="300,10,0,0" VerticalAlignment="Top" Width="100" Visibility="Hidden"/>
+                <Button Content="X" HorizontalAlignment="Left" Margin="400,10,0,0" VerticalAlignment="Top" Width="100" Visibility="Hidden"/>
+            </Grid>
+            <!-- /Wybieranie menu -->
+            <!-- Przyciski menu -->
+            <Grid HorizontalAlignment="Left" Margin="0,50,0,0" VerticalAlignment="Top" Width="500" Height="450">
+                <Grid x:Name="GridBuild" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Visibility="Hidden" Height="450" Background="#19000000">
+
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="120" Margin="10,10,0,0" Click="Build" Tag="Dom">
+                        <Viewbox Stretch="Uniform">
+                            <Image Source="F:\C\C#\Osada\Osada\images\Dom.png"></Image>
+                        </Viewbox>
+                    </Button>
+
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="120" Margin="140,10,0,0" Click="Build" Tag="Pole - zboże">
+                        <Viewbox Stretch="Uniform">
+                            <Image Source="F:\C\C#\Osada\Osada\images\Pole - zboże.png"></Image>
+                        </Viewbox>
+                    </Button>
+
+                    <Button HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Height="120" Margin="270,10,0,0" Click="Build" Tag="Armia">
+                        <Viewbox Stretch="Uniform">
+                            <Image Source="F:\C\C#\Osada\Osada\images\Armia.png"></Image>
+                        </Viewbox>
+                    </Button>
+                </Grid>
+                <Grid x:Name="GridDiscovering" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Height="450" Background="#19000000" Visibility="Hidden">
+                    <Button Width="50" Height="80" Margin="400,317,50,53" />
+                </Grid>
+                <Grid x:Name="GridArmy" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Visibility="Hidden" Height="450" Background="#19000000">
+                    <Button Width="50" Height="80" Margin="10,317,50,53" />
+                </Grid>
+            </Grid>
+            <!-- /Przyciski menu -->
+        </Grid>
+
+        <Button x:Name="BtNextTurn" Content="1 >>" HorizontalAlignment="Left" Height="65" Margin="1110,6,0,0" VerticalAlignment="Top" Width="65" Click="NextTurn"/>
+
+        <!-- /Menu akcji -->
+
+
+    </Grid>
+    <!-- /Okno -->
+</Window>
